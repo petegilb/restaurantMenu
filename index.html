@@ -1,0 +1,103 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Sample Restaurant Menu</title>
+    </head>
+    <body>
+        <div>
+            <table id="menu">
+                <tr class="VerticalRow" id="base">
+                    <th>Menu Sections
+                        <button class="plus" onclick="addRow()">+</button>
+                    </th>
+                    <td onclick="showSub(0)">Lunch Specials</td>
+                    <td onclick="showSub(1)">Dinner Specials</td>
+                    <td onclick="showSub(2)">Weekend Specials</td>
+                    <td onclick="showSub(3)">Soups</td>
+                </tr>
+            </table>
+            <table id="subTable" style="position:absolute; top:8px;">
+                <tr class="VerticalRow" id="subBase">
+                    <th>Section Items
+                        <button class="plus" onclick="addRowSub()">+</button>
+                    </th>
+                </tr>
+            </table>
+        </div>
+    </body>
+    <style>
+        .plus{
+            background-color: white;
+            font-family: "Arial", Arial, sans-serif;
+            text-decoration: none;
+            border:none;
+            font-size: 20px;
+        }
+        .plus:hover{
+            background-color: #dcdfe5;
+        }
+        .VerticalRow{
+            display: block;
+            float: left;
+
+        }
+        th,td {
+            display: block;
+            border-collapse: collapse;
+            border: 1px solid black;
+            font-family: "Arial", Arial, sans-serif;
+            padding: 10px;
+            text-align: center;
+        }
+        td:hover{
+            background-color: #dcdfe5;
+        }
+        table{
+            display: inline;
+            border-collapse: collapse;
+        }
+
+    </style>
+    <script>
+    var rowData = [["sandwich","fish"],["lobster"],["pancakes"],["bisque"]];
+    var current = 0;
+    //function to add a new row in a table
+    function addRow(){
+        var menuTable = document.getElementById('menu');
+        var numRows = menuTable.getElementsByTagName("td").length;
+        var row = document.getElementById("base");
+        var toAdd1 = row.insertCell(numRows+1);
+        rowData.push([]);
+        toAdd1.setAttribute("onclick","showSub("+numRows+");");
+        var newText = prompt("Add New Section");
+        toAdd1.innerHTML = newText;
+    }
+    //add row to the subTable
+    function addRowSub(){
+        var menuTable = document.getElementById('subTable');
+        var numRows = menuTable.getElementsByTagName("td").length;
+        var row = document.getElementById("subBase");
+        var toAdd1 = row.insertCell(numRows+1);
+        var newText = prompt("Add New Section");
+        toAdd1.innerHTML = newText;
+        rowData[current].push(newText);
+    }
+    //function to show sub categories in a table
+    function showSub(index){
+        var subTable = document.getElementById('subTable');
+        var row = document.getElementById("subBase");
+        var numRows = subTable.getElementsByTagName("td").length;
+        for(var i=numRows; i>0; i--){
+            row.deleteCell(i);
+        }
+        numRows = rowData[index].length;
+        for(var i=0; i<numRows; i++){
+            var toAdd = row.insertCell(i+1);
+            toAdd.innerHTML = rowData[index][i];
+        }
+        current = index;
+    }
+
+
+    </script>
+</html>
